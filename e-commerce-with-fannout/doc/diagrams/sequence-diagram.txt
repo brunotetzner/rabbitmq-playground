@@ -1,0 +1,35 @@
+title e-commerce fanout queue
+
+actor user
+
+participant "saleProductService" as sale
+
+participant "broker" as broker #29F026
+participant "PaymentService" as pay
+
+participant "DeliveryService" as delivery
+
+participant "SendNotificationService" as notify
+
+user->sale: Buys the product
+activate sale
+
+
+sale->broker: emit ecommerce.sale
+sale->user: returns that product is processing
+deactivate sale
+
+broker->pay: listen ecommerce.sale
+activate pay
+pay->pay:process payment
+deactivate pay
+
+broker->delivery: listen ecommerce.sale
+activate delivery
+delivery->delivery:process delivery
+deactivate delivery
+
+broker->notify: listen ecommerce.sale
+activate notify
+notify->notify: send notification
+deactivate notify

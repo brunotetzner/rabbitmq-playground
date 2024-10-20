@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  rabbitmq-ecommerce:
+    image: "rabbitmq:3.8-management-alpine"
+    container_name: rabbitmq-ecommerce
+    hostname: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - my_network
+  database:
+    image: postgres:17
+    container_name: ecommerce-service-db
+    environment:
+      POSTGRES_DB: ecommerce-service-db
+      POSTGRES_USER: ecommerce-user
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+    networks:
+      - my_network
+networks:
+  my_network:
+    driver: bridge
