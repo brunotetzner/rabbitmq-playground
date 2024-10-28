@@ -7,14 +7,14 @@ import { OrderEntity } from "../../shared/order.entity";
 import { OrderItemEntity } from "../../shared/order-item.entity";
 
 export const AppDataSource = new DataSource({
-  type: "postgres", // ou outro tipo de banco de dados, ex: sqlite, mysql
+  type: "postgres",
   host: "localhost",
   port: 5432,
   username: "ecommerce-user",
   password: "password",
   database: "ecommerce-service-db",
-  synchronize: true, // Defina como true apenas para desenvolvimento, false em produção
-  logging: true,
+  synchronize: true,
+  logging: false,
   migrationsRun: false,
   entities: [
     AccountEntity,

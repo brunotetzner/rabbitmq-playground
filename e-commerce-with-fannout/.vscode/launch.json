@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API APP",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--nolazy",
+        "--watch",
+        "-r",
+        "ts-node/register/transpile-only"
+      ],
+      "args": [
+        "src/index.ts"
+      ],
+      "cwd": "${workspaceRoot}",
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": [
+        "<node_internals>/**",
+        "node_modules/**"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "env": {}
+    },
+  ]
+}

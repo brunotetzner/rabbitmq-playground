@@ -5,15 +5,15 @@ export class ProductEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   name: string;
 
   @Column("decimal", { precision: 10, scale: 2 })
   price: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   stock: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   description: string;
 }
