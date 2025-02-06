@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { CreateAccountService } from "../services/create-account.service";
 import { AuthService } from "../services/authenticate-account.service";
 import { AccountDetailsService } from "../services/get-account-details.service";
+import { AccountCreateDto } from "../DTOs/account-create.dto";
 
 export class AccountController {
   private accountService: CreateAccountService;
@@ -13,12 +14,17 @@ export class AccountController {
     this.accountDetailsService = new AccountDetailsService();
   }
 
-  // Endpoint para cadastrar uma nova conta
   async createAccount(req: Request, res: Response): Promise<void> {
-    const { email, password, name } = req.body;
+    const { email, password, name, shippingAddress }: AccountCreateDto =
+      req.body;
 
     try {
-      const account = await this.accountService.execute(email, password, name);
+      const account = await this.accountService.execute(
+        email,
+        password,
+        name,
+        shippingAddress
+      );
       res.status(201).json(account);
     } catch (error) {
       res.status(400).json({ message: "Erro ao criar conta", error });

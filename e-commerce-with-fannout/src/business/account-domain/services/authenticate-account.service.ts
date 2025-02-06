@@ -16,7 +16,7 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<string | null> {
     const account = await this.accountRepository.findOne({ where: { email } });
-
+    console.log("here", this.jwtSecret);
     if (!account) {
       return null;
     }
