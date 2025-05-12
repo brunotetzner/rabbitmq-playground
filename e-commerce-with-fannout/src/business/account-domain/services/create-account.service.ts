@@ -1,8 +1,8 @@
 import { Repository } from "typeorm";
 import bcrypt from "bcryptjs";
-import { AccountEntity } from "../../../shared/account.entity";
+import { AccountEntity } from "../../../shared/entities/account.entity";
 import { AppDataSource } from "../../../common/database/database.config";
-import { AddressEntity } from "../../../shared/address.entity";
+import { AddressEntity } from "../../../shared/entities/address.entity";
 import { ShippingAddressDto } from "../DTOs/account-create.dto";
 
 export class CreateAccountService {

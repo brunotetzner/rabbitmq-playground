@@ -12,7 +12,7 @@ export class SaleController {
     try {
       const response = await this.createSaleService.execute(req, req.body);
 
-      res.status(201).json(response);
+      res.status(202).json(response);
     } catch (error) {
       res.status(400).json({ message: "Erro ao criar venda", error });
     }

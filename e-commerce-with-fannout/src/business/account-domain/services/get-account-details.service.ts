@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { AccountEntity } from "../../../shared/account.entity";
+import { AccountEntity } from "../../../shared/entities/account.entity";
 import { AppDataSource } from "../../../common/database/database.config";
 
 export class AccountDetailsService {

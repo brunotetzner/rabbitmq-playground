@@ -1,10 +1,11 @@
+import { env } from "./../env/setup-envs";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { AccountEntity } from "../../shared/account.entity";
-import { AddressEntity } from "../../shared/address.entity";
-import { ProductEntity } from "../../shared/product.entity";
-import { OrderEntity } from "../../shared/order.entity";
-import { OrderItemEntity } from "../../shared/order-item.entity";
+import { AccountEntity } from "../../shared/entities/account.entity";
+import { AddressEntity } from "../../shared/entities/address.entity";
+import { ProductEntity } from "../../shared/entities/product.entity";
+import { OrderEntity } from "../../shared/entities/order.entity";
+import { OrderItemEntity } from "../../shared/entities/order-item.entity";
 
 export const AppDataSource = new DataSource({
   type: "postgres",

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { AccountEntity } from "../../../shared/account.entity";
+import { AccountEntity } from "../../../shared/entities/account.entity";
 import { Repository } from "typeorm";
 import { AppDataSource } from "../../../common/database/database.config";
 import { env } from "../../../common/env/setup-envs";

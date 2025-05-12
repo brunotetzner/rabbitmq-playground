@@ -1,13 +1,13 @@
 import { Repository } from "typeorm";
-import { AccountEntity } from "../../../shared/account.entity";
+import { AccountEntity } from "../../../shared/entities/account.entity";
 import { AppDataSource } from "../../../common/database/database.config";
-import { OrderItemEntity } from "../../../shared/order-item.entity";
-import { OrderEntity } from "../../../shared/order.entity";
+import { OrderItemEntity } from "../../../shared/entities/order-item.entity";
+import { OrderEntity } from "../../../shared/entities/order.entity";
 import { CreateSaleDto } from "../DTOs/create-sale.dto";
 import { Request } from "express";
 import { SaleStatusEnum } from "../../../shared/enums/sale-status.enum";
-import { ProductEntity } from "../../../shared/product.entity";
-import { AddressEntity } from "../../../shared/address.entity";
+import { ProductEntity } from "../../../shared/entities/product.entity";
+import { AddressEntity } from "../../../shared/entities/address.entity";
 
 export class CreateSaleService {
   private accountRepository: Repository<AccountEntity>;
@@ -22,7 +22,7 @@ export class CreateSaleService {
     this.addressRepository = AppDataSource.getRepository(AddressEntity);
   }
 
-  async execute(req: Request, body: CreateSaleDto): Promise<OrderEntity> {
+  async execute(req: Request, body: CreateSaleDto): Promise<void> {
     try {
       const { items, shippingAddressId } = body;
       const order = new OrderEntity();
@@ -44,7 +44,7 @@ export class CreateSaleService {
       }
 
       order.account = account;
-
+      order.shippingAddress = shippingAddressEntity;
       await this.orderEntityRepository.save(order);
 
       order.items = [];
@@ -66,12 +66,8 @@ export class CreateSaleService {
         orderItem.order = order;
 
         await AppDataSource.getRepository(OrderItemEntity).save(orderItem);
-        order.items.push(orderItem);
       }
-
-      return order;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
