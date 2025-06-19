@@ -1,13 +1,15 @@
+import { OrderEntity } from "./../../../shared/entities/order.entity";
 import { Repository } from "typeorm";
 import { AccountEntity } from "../../../shared/entities/account.entity";
 import { AppDataSource } from "../../../common/database/database.config";
 import { OrderItemEntity } from "../../../shared/entities/order-item.entity";
-import { OrderEntity } from "../../../shared/entities/order.entity";
 import { CreateSaleDto } from "../DTOs/create-sale.dto";
 import { Request } from "express";
 import { SaleStatusEnum } from "../../../shared/enums/sale-status.enum";
 import { ProductEntity } from "../../../shared/entities/product.entity";
 import { AddressEntity } from "../../../shared/entities/address.entity";
+import { RabbitMQBroker } from "../../../mechanisms/rabbitmq";
+import { exchangeTypeEnum } from "../../../mechanisms/rabbitmq";
 
 export class CreateSaleService {
   private accountRepository: Repository<AccountEntity>;
@@ -45,10 +47,10 @@ export class CreateSaleService {
 
       order.account = account;
       order.shippingAddress = shippingAddressEntity;
-      await this.orderEntityRepository.save(order);
+      const orderEntity = await this.orderEntityRepository.save(order);
 
       order.items = [];
-
+      let totalOrderPrice = 0;
       for (const item of items) {
         const product = await this.productRepository.findOne({
           where: { id: item.id },
@@ -66,9 +68,27 @@ export class CreateSaleService {
         orderItem.order = order;
 
         await AppDataSource.getRepository(OrderItemEntity).save(orderItem);
+
+        totalOrderPrice += orderItem.totalPrice;
       }
+      order.totalPrice = totalOrderPrice;
+      await this.orderEntityRepository.update(orderEntity.id, {
+        totalPrice: totalOrderPrice,
+      });
+      await this.publishToBroker(account, orderEntity);
     } catch (error) {
       throw error;
     }
+  }
+
+  private async publishToBroker(account: AccountEntity, order: OrderEntity) {
+    const broker = new RabbitMQBroker("amqp.fanout");
+    const message = {
+      totalPrice: order.totalPrice,
+      accountId: account.id,
+      orderId: order.id,
+    };
+
+    await broker.sendFanout(message);
   }
 }

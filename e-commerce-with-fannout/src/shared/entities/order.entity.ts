@@ -23,6 +23,9 @@ export class OrderEntity {
   @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)
   items: OrderItemEntity[];
 
+  @Column("decimal", { precision: 10, scale: 2, nullable: true })
+  totalPrice: number;
+
   @ManyToOne(() => AddressEntity)
   shippingAddress: AddressEntity;
 }

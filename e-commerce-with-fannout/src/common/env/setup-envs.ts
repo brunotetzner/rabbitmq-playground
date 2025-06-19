@@ -6,6 +6,11 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3333),
   JWT_PUBLIC_KEY: z.string(),
   JWT_PRIVATE_KEY: z.string(),
+  RABBITMQ_PROTOCOL: z.string(),
+  RABBITMQ_HOST: z.string(),
+  RABBITMQ_PORT: z.coerce.number().default(5672),
+  RABBITMQ_USERNAME: z.string(),
+  RABBITMQ_PASSWORD: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);

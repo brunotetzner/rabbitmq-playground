@@ -5,6 +5,9 @@ services:
     image: "rabbitmq:3.8-management-alpine"
     container_name: rabbitmq-ecommerce
     hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     ports:
       - "15672:15672"
       - "5672:5672"

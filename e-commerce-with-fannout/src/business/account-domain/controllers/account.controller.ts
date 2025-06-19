@@ -48,7 +48,7 @@ export class AccountController {
     }
   }
   async getAccountDetails(req: Request, res: Response): Promise<void> {
-    const userId = req.user.id;
+    const userId = req?.user && req?.user?.id;
     if (!userId) {
       res.status(401).json({ message: "Usuário não autenticado." });
       return;
